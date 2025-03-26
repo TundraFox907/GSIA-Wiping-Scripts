@@ -1,0 +1,29 @@
+#!/bin/bash
+lsblk
+# Print out a list of connected devices
+
+printf "\n Please enter a drive address (e.g. sdb for /dev/sdb) [default=sdb]: \n"
+read DRIVE
+# Read in variable name of drive, defaulting to /dev/sdb because you need *something* as a default
+
+DRIVE=${DRIVE:-sdb}
+# Assign variable for drive name
+
+printf " \n Do you want to zap the filesystem or scrub the drive "$DRIVE"? \n [1 = Zap, 2 = Scrub, default = 1]\n"
+read CHOOSE
+# New branching path to either wipe file system or perform full drive wipe
+
+CHOOSE=${CHOOSE:-1}
+# Defaulting to FS wipe becaue that's quicker to execute and has more failsafes.
+
+if [ $CHOOSE -eq 1 ]; then
+	sudo wipefs -a /dev/$DRIVE
+fi # Option 1: Wipe the FS
+
+if [ $CHOOSE -eq 2 ]; then
+	sudo dd if=/dev/urandom of=/dev/$DRIVE bs=4M status=progress
+fi # Option 2: full drive overwrite with random data
+
+else
+	exit
+fi # Invalid inputs exit the script
