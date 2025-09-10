@@ -9,7 +9,7 @@ read DRIVE
 DRIVE=${DRIVE:-sdb}
 # Assign variable for drive name
 
-printf " \n Do you want to zap the filesystem or scrub the drive "$DRIVE"? \n [1 = Zap, 2 = Scrub, default = 1]\n"
+printf " \n Do you want to zap the filesystem or scrub the drive "$DRIVE"? \n [1 = Zap, 2 = Scrub, default = 1] \n"
 read CHOOSE
 # New branching path to either wipe file system or perform full drive wipe
 
@@ -21,7 +21,7 @@ if [ $CHOOSE -eq 1 ]; then
 fi # Option 1: Wipe the FS
 
 if [ $CHOOSE -eq 2 ]; then
-	sudo dd if=/dev/urandom of=/dev/$DRIVE bs=4M status=progress
+	sudo dd if=/dev/urandom of=/dev/$DRIVE bs=4M oflag=direct status=progress
 fi # Option 2: full drive overwrite with random data
 
 else
